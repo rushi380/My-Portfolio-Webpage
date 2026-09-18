@@ -81,30 +81,6 @@ export const repos: Repo[] = [
     url: 'https://github.com/rushi380/My-Portfolio-Webpage',
     updated: '2025-08',
   },
-  {
-    name: 'CodeAlpha_-Polling-System-Smart-Contract',
-    description: 'A polling system implemented as a smart contract — every vote recorded transparently on-chain.',
-    language: 'Solidity',
-    category: 'blockchain',
-    url: 'https://github.com/rushi380/CodeAlpha_-Polling-System-Smart-Contract',
-    updated: '2025-07',
-  },
-  {
-    name: 'CodeAlpha_-Multi-Send-Smart-Contract-',
-    description: 'A smart contract that batches many transfers into a single transaction to save gas.',
-    language: 'Solidity',
-    category: 'blockchain',
-    url: 'https://github.com/rushi380/CodeAlpha_-Multi-Send-Smart-Contract-',
-    updated: '2025-07',
-  },
-  {
-    name: 'CodeAlpha_Simple-Storage-Smart-Contract-',
-    description: 'A minimal storage smart contract — reading and writing values on-chain (CodeAlpha task).',
-    language: 'Solidity',
-    category: 'blockchain',
-    url: 'https://github.com/rushi380/CodeAlpha_Simple-Storage-Smart-Contract-',
-    updated: '2025-07',
-  },
 ]
 
 export const skillGroups: Array<{ title: string; items: string[] }> = [
