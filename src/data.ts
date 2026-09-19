@@ -22,16 +22,24 @@ export const profile = {
   memberSince: '2025',
 }
 
+// Hero stat pills — rendered by main.ts, so edit values here, not in index.html
+export const heroStats: Array<{ value: string; label: string }> = [
+  { value: String(profile.reposCount), label: 'public repos' },
+  { value: 'Solidity + TS', label: 'core focus' },
+  { value: profile.memberSince, label: 'building since' },
+]
+
 // What the hero types out, one after another
 export const roles = ['blockchain dApps', 'smart contracts', 'clean web interfaces', 'things that ship']
 
 // Snapshot of github.com/rushi380 (September 2026).
-// The repos have no descriptions on GitHub, so these one-liners were
-// written from the repo names — edit them to match the real projects.
+// Descriptions are one-liners written from each repo's README — keep them
+// current as projects evolve. `language`, `updated` and profile.reposCount
+// are refreshed weekly from the GitHub API by scripts/refresh-data.mjs.
 export const repos: Repo[] = [
   {
     name: 'creator_authenticity_ledger',
-    description: 'Ledger-based approach to verifying the authenticity of creator content — proofs, ownership and history.',
+    description: 'Creators prove their engagement metrics meet brand thresholds on Midnight with zero-knowledge proofs — no raw numbers revealed.',
     language: 'TypeScript',
     category: 'blockchain',
     url: 'https://github.com/rushi380/creator_authenticity_ledger',
@@ -40,7 +48,7 @@ export const repos: Repo[] = [
   },
   {
     name: 'midnight-private-allowlist',
-    description: 'A privacy-preserving allowlist built with Midnight — confidential membership without exposing identities.',
+    description: 'Prove you\'re on the allowlist without revealing who you are — Merkle commitments and nullifier anti-replay on Midnight.',
     language: 'TypeScript',
     category: 'blockchain',
     url: 'https://github.com/rushi380/midnight-private-allowlist',
@@ -49,7 +57,7 @@ export const repos: Repo[] = [
   },
   {
     name: 'Scholarship-_Eligibility-_dapp',
-    description: 'A decentralized app that checks and manages scholarship eligibility transparently on-chain.',
+    description: 'Students prove scholarship eligibility with zero-knowledge proofs — marks clear the bar, income stays under the cap, neither is exposed.',
     language: 'TypeScript',
     category: 'blockchain',
     url: 'https://github.com/rushi380/Scholarship-_Eligibility-_dapp',
@@ -57,7 +65,7 @@ export const repos: Repo[] = [
   },
   {
     name: 'DukanAI',
-    description: 'An AI-powered assistant for running a dukan (shop) — inventory and insights in one place.',
+    description: 'Voice-first inventory manager for Indian kirana shops — Hindi voice commands and bill scanning via Gemini, WhatsApp restock alerts.',
     language: 'JavaScript',
     category: 'ai',
     url: 'https://github.com/rushi380/DukanAI',
@@ -66,7 +74,7 @@ export const repos: Repo[] = [
   },
   {
     name: 'fundchain-v3',
-    description: 'Third iteration of FundChain — a decentralized funding platform connecting creators and backers.',
+    description: 'Milestone-based crowdfunding on Stellar Soroban — Rust contracts release funds in stages, with reward tokens and live on-chain metrics.',
     language: 'JavaScript',
     category: 'blockchain',
     url: 'https://github.com/rushi380/fundchain-v3',

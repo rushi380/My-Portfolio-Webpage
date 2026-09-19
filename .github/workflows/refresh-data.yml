@@ -1,0 +1,37 @@
+# Weekly sync of src/data.ts with the GitHub API (languages, last-push dates,
+# repo count). Descriptions and categories are hand-written and preserved.
+# Committing to main also triggers the Vercel production deploy.
+name: Refresh repo data
+
+on:
+  schedule:
+    - cron: '23 6 * * 1' # Mondays 06:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node scripts/refresh-data.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data.ts
+          if git diff --cached --quiet; then
+            echo "Repo data already up to date"
+          else
+            git commit -m "chore: refresh repo snapshot from GitHub"
+            git push
+          fi

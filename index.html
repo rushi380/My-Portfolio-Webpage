@@ -10,9 +10,33 @@
   <meta property="og:title" content="Rushikesh Gaiwal — Blockchain & Web Developer">
   <meta property="og:description" content="Programmer and blockchain student building dApps, smart contracts and modern web interfaces.">
   <meta property="og:type" content="website">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta property="og:url" content="https://my-portfolio-webpage-ten.vercel.app/">
+  <meta property="og:site_name" content="rushikesh.dev">
+  <meta property="og:image" content="https://my-portfolio-webpage-ten.vercel.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Rushikesh Gaiwal — Blockchain &amp; Web Developer">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rushikesh Gaiwal — Blockchain &amp; Web Developer">
+  <meta name="twitter:description" content="Programmer and blockchain student building dApps, smart contracts and modern web interfaces.">
+  <meta name="twitter:image" content="https://my-portfolio-webpage-ten.vercel.app/og-image.png">
+  <link rel="canonical" href="https://my-portfolio-webpage-ten.vercel.app/">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Rushikesh Gaiwal",
+      "url": "https://my-portfolio-webpage-ten.vercel.app/",
+      "image": "https://my-portfolio-webpage-ten.vercel.app/avatar.jpg",
+      "jobTitle": "Blockchain & Web Developer",
+      "description": "Programmer and blockchain student building dApps, smart contracts and modern web interfaces.",
+      "sameAs": [
+        "https://github.com/rushi380",
+        "https://www.linkedin.com/in/rushikesh-gaiwal-2198ab321/",
+        "https://x.com/RushikesGaiwal"
+      ]
+    }
+  </script>
   <script type="module" src="./src/main.ts"></script>
 </head>
 <body>
@@ -46,17 +70,13 @@
       <div class="hero-copy">
         <p class="status-pill"><img src="./avatar.jpg" alt="" width="22" height="22"><span class="pulse" aria-hidden="true"></span>Open to collaborations</p>
         <h1 class="hero-title">Rushikesh<br>Gaiwal</h1>
-        <p class="hero-typed">I build <span id="typed" class="typed"></span><span class="t-cursor" aria-hidden="true"></span></p>
+        <p class="hero-typed">I build <span id="typed-sr" class="sr-only"></span><span aria-hidden="true"><span id="typed" class="typed"></span><span class="t-cursor"></span></span></p>
         <p class="hero-bio">Programmer &amp; blockchain student — exploring web3, smart contracts and modern web development. I learn by shipping: every idea becomes a repo, a demo, a deploy.</p>
         <div class="hero-ctas">
           <a class="btn-primary" href="#projects">View projects <span aria-hidden="true">↓</span></a>
           <a class="btn-ghost" href="https://github.com/rushi380" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
         </div>
-        <ul class="hero-stats" aria-label="Quick stats">
-          <li><strong>9</strong><span>public repos</span></li>
-          <li><strong>Solidity + TS</strong><span>core focus</span></li>
-          <li><strong>2025</strong><span>building since</span></li>
-        </ul>
+        <ul class="hero-stats" id="hero-stats" aria-label="Quick stats"></ul>
       </div>
 
       <div class="terminal card" aria-label="Terminal introduction">
@@ -102,12 +122,8 @@
       <p class="kicker">02 — Projects</p>
       <h2 class="section-title">Straight from the repo.</h2>
       <p class="section-sub">Everything below is public on <a href="https://github.com/rushi380" target="_blank" rel="noopener">GitHub</a> — live demos where they exist.</p>
-      <div class="filters" id="filters" role="group" aria-label="Filter projects">
-        <button class="filter active" data-filter="all">All</button>
-        <button class="filter" data-filter="blockchain">Blockchain</button>
-        <button class="filter" data-filter="ai">AI</button>
-        <button class="filter" data-filter="web">Web</button>
-      </div>
+      <!-- Filter buttons are rendered from src/data.ts — only categories with repos appear -->
+      <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
       <div class="project-grid" id="project-grid"></div>
     </section>
 

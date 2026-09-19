@@ -1,5 +1,18 @@
+import '@fontsource/inter/400.css'
+import '@fontsource/inter/500.css'
+import '@fontsource/inter/600.css'
+import '@fontsource/jetbrains-mono/400.css'
+import '@fontsource/jetbrains-mono/500.css'
+import '@fontsource/space-grotesk/500.css'
+import '@fontsource/space-grotesk/600.css'
+import '@fontsource/space-grotesk/700.css'
 import './style.css'
-import { repos, roles, skillGroups, type Repo } from './data'
+import { repos, roles, heroStats, skillGroups, type Repo } from './data'
+
+// All rendered strings pass through escapeHtml so data.ts can never inject
+// markup — matters the day this file is generated from an API instead of hand-edited.
+const escapeHtml = (value: string): string =>
+  value.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch] ?? ch))
 
 const langColors: Record<string, string> = {
   TypeScript: '#3178c6',
@@ -8,12 +21,51 @@ const langColors: Record<string, string> = {
   Solidity: '#aa6746',
 }
 
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+// data.ts stores 'YYYY-MM' — display it as 'Sep 2026'
+const formatUpdated = (value: string): string => {
+  const [year, month] = value.split('-')
+  const monthName = months[Number(month) - 1]
+  if (!year || !monthName) return value
+  return `${monthName} ${year}`
+}
+
 // ---------- Render: tech ticker ----------
 const tickerTrack = document.getElementById('ticker-track')
 if (tickerTrack) {
   const items = ['TypeScript', 'Solidity', 'JavaScript', 'HTML5', 'CSS3', 'Web3', 'Vite', 'Git', 'dApps', 'GitHub']
-  const half = items.map((item) => `<span>${item}</span><span class="t-sep">✦</span>`).join('')
+  const half = items.map((item) => `<span>${escapeHtml(item)}</span><span class="t-sep">✦</span>`).join('')
   tickerTrack.innerHTML = half + half // duplicated so the CSS -50% loop is seamless
+}
+
+// ---------- Render: hero stats (source of truth: data.ts) ----------
+const heroStatsEl = document.getElementById('hero-stats')
+if (heroStatsEl) {
+  heroStatsEl.innerHTML = heroStats
+    .map((stat) => `<li><strong>${escapeHtml(stat.value)}</strong><span>${escapeHtml(stat.label)}</span></li>`)
+    .join('')
+}
+
+// ---------- Render: project filters (only categories that actually have repos) ----------
+const categoryLabels: Record<Repo['category'] | 'all', string> = {
+  all: 'All',
+  blockchain: 'Blockchain',
+  ai: 'AI',
+  web: 'Web',
+}
+const activeCategories = (['blockchain', 'ai', 'web'] as const).filter((category) =>
+  repos.some((repo) => repo.category === category),
+)
+const filtersEl = document.getElementById('filters')
+if (filtersEl) {
+  const filters: Array<Repo['category'] | 'all'> = ['all', ...activeCategories]
+  filtersEl.innerHTML = filters
+    .map(
+      (filter) =>
+        `<button class="filter${filter === 'all' ? ' active' : ''}" data-filter="${filter}" aria-pressed="${filter === 'all'}">${categoryLabels[filter]}</button>`,
+    )
+    .join('')
 }
 
 // ---------- Render: project cards ----------
@@ -22,17 +74,17 @@ if (grid) {
   const card = (repo: Repo) => `
     <article class="project-card card reveal" data-category="${repo.category}">
       <div class="project-top">
-        <h3 class="project-name">${repo.name}</h3>
+        <h3 class="project-name">${escapeHtml(repo.name)}</h3>
         <span class="project-arrow" aria-hidden="true">↗</span>
       </div>
-      <p class="project-desc">${repo.description}</p>
+      <p class="project-desc">${escapeHtml(repo.description)}</p>
       <div class="project-meta">
-        <span class="lang"><i style="background: ${langColors[repo.language] ?? '#8b5cf6'}"></i>${repo.language}</span>
-        <span>updated ${repo.updated}</span>
+        <span class="lang"><i style="background: ${langColors[repo.language] ?? '#8b5cf6'}"></i>${escapeHtml(repo.language)}</span>
+        <span>updated ${escapeHtml(formatUpdated(repo.updated))}</span>
       </div>
       <div class="project-links">
-        <a class="chip-btn" href="${repo.url}" target="_blank" rel="noopener">Code</a>
-        ${repo.live ? `<a class="chip-btn chip-btn-live" href="${repo.live}" target="_blank" rel="noopener">Live ↗</a>` : ''}
+        <a class="chip-btn" href="${escapeHtml(repo.url)}" target="_blank" rel="noopener">Code</a>
+        ${repo.live ? `<a class="chip-btn chip-btn-live" href="${escapeHtml(repo.live)}" target="_blank" rel="noopener">Live ↗</a>` : ''}
       </div>
     </article>`
   grid.innerHTML = repos.map(card).join('')
@@ -45,8 +97,8 @@ if (stackGrid) {
     .map(
       (group) => `
       <div class="stack-card card reveal">
-        <h3>${group.title}</h3>
-        <ul>${group.items.map((item) => `<li>${item}</li>`).join('')}</ul>
+        <h3>${escapeHtml(group.title)}</h3>
+        <ul>${group.items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
       </div>`,
     )
     .join('')
@@ -56,7 +108,11 @@ if (stackGrid) {
 const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter')
 filterButtons.forEach((button) => {
   button.addEventListener('click', () => {
-    filterButtons.forEach((b) => b.classList.toggle('active', b === button))
+    filterButtons.forEach((b) => {
+      const active = b === button
+      b.classList.toggle('active', active)
+      b.setAttribute('aria-pressed', String(active))
+    })
     const filter = button.dataset.filter
     document.querySelectorAll<HTMLElement>('.project-card').forEach((cardEl) => {
       cardEl.classList.toggle('hidden', filter !== 'all' && cardEl.dataset.category !== filter)
@@ -116,6 +172,8 @@ navLinks.forEach((link) =>
 
 // ---------- Hero typing effect ----------
 const typedEl = document.getElementById('typed')
+const typedSrEl = document.getElementById('typed-sr')
+if (typedSrEl) typedSrEl.textContent = roles.join(', ') // stable text for screen readers
 if (typedEl) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     typedEl.textContent = roles[0]
@@ -142,11 +200,21 @@ if (typedEl) {
   }
 }
 
-// ---------- Pointer glow (desktop only) ----------
+// ---------- Pointer glow (desktop only, rAF-throttled) ----------
 const glow = document.getElementById('glow')
 if (glow && window.matchMedia('(pointer: fine)').matches) {
+  let glowX = 0
+  let glowY = 0
+  let glowRaf = 0
   window.addEventListener('pointermove', (event) => {
-    glow.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`
+    glowX = event.clientX
+    glowY = event.clientY
+    if (!glowRaf) {
+      glowRaf = requestAnimationFrame(() => {
+        glowRaf = 0
+        glow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`
+      })
+    }
   })
 }
 

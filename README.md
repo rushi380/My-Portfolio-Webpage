@@ -10,9 +10,12 @@ Single-page portfolio built with **Vite + TypeScript** and a glass/aurora design
 
 - 🌌 Aurora + grid background, glassmorphism cards, pointer glow
 - ⌨️ Typing effect + terminal card in the hero
-- 📂 Real GitHub projects with filters (All / Blockchain / AI / Web) and live demo links
+- 📂 Real GitHub projects with data-driven filters and live demo links
 - 🧭 Scroll-spy navigation, mobile hamburger menu, reveal-on-scroll animations
 - ♿ Keyboard-friendly, honors `prefers-reduced-motion`, responsive down to small phones
+- 🔗 Social preview card (`og:image`), canonical URL and JSON-LD person schema
+- 🏠 Self-hosted fonts via `@fontsource` — no third-party font requests
+- 🤖 CI on every push + a weekly GitHub Action that refreshes repo data from the GitHub API
 
 ## 🧱 Stack
 
@@ -67,9 +70,17 @@ index.html        # single page (hero, about, projects, stack, contact)
 src/main.ts       # rendering + interactions (filters, scroll-spy, typing, menu)
 src/data.ts       # profile + repo snapshot from GitHub — edit descriptions here
 src/style.css     # design system
-public/           # favicon, avatar
+scripts/          # refresh-data.mjs (weekly data sync), make-og-image.mjs
+.github/workflows # ci.yml (build check), refresh-data.yml (weekly data sync)
+public/           # favicon, avatar, og-image.png
 ```
 
 ## ✏️ Customizing
 
-Project descriptions on GitHub were empty, so the one-liners in `src/data.ts` were written from the repo names — update them to match reality as projects evolve. Stats (repo count, etc.) live in the same file.
+Project descriptions in `src/data.ts` are one-liners written from each repo's README — update them as projects evolve. Everything else stays fresh on its own: a weekly GitHub Action (`refresh-data.yml`) syncs languages, last-push dates and the public repo count from the GitHub API and commits to `main` when something changed. Filters are rendered from the data too — a category button appears once a repo uses it.
+
+To regenerate the social preview image after changing the name/title/design:
+
+```bash
+npm i --no-save sharp && node scripts/make-og-image.mjs
+```
