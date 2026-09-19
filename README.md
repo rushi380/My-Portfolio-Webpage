@@ -27,6 +27,35 @@ npm run build     # type-check + production build → dist/
 npm run preview   # serve the production build
 ```
 
+## 🚢 Deploying to Vercel
+
+The repo ships ready for Vercel — `vercel.json` pins the build settings and `package.json` requests Node ≥ 20.19 (required by Vite 8).
+
+**Via dashboard (recommended)**
+
+1. Push the repo to GitHub, then open [vercel.com/new](https://vercel.com/new) and import it.
+2. Vercel auto-detects the Vite preset; the settings below are picked up from `vercel.json` — no manual changes needed. Click **Deploy**.
+3. Every push to `main` triggers a production deploy, and every PR gets its own preview URL.
+
+**Via CLI**
+
+```bash
+npm i -g vercel
+vercel           # preview deployment
+vercel --prod    # production deployment
+```
+
+Settings used (all pre-configured in `vercel.json`):
+
+| Setting          | Value                                             |
+| ---------------- | ------------------------------------------------- |
+| Framework preset | Vite                                              |
+| Build command    | `npm run build` (type-check + `vite build`)        |
+| Output directory | `dist`                                            |
+| Node version     | ≥ 20.19 (`engines.node` in `package.json`)         |
+| Install command  | `npm install` (default)                           |
+
+
 ## 📁 Structure
 
 ```
