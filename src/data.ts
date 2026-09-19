@@ -73,14 +73,6 @@ export const repos: Repo[] = [
     live: 'https://fundchain-v3.vercel.app',
     updated: '2026-04',
   },
-  {
-    name: 'My-Portfolio-Webpage',
-    description: 'This site — a single-page portfolio built with Vite, TypeScript and a glass/aurora design system.',
-    language: 'HTML',
-    category: 'web',
-    url: 'https://github.com/rushi380/My-Portfolio-Webpage',
-    updated: '2025-08',
-  },
 ]
 
 export const skillGroups: Array<{ title: string; items: string[] }> = [
