@@ -2,6 +2,8 @@
 
 Single-page portfolio built with **Vite + TypeScript** and a glass/aurora design system — no frameworks, no UI libraries. All project data comes from a typed snapshot of my public GitHub repos (`src/data.ts`).
 
+**🔴 Live:** [my-portfolio-webpage-ten.vercel.app](https://my-portfolio-webpage-ten.vercel.app/)
+
 ---
 
 ## ✨ Highlights
@@ -36,6 +38,8 @@ The repo ships ready for Vercel — `vercel.json` pins the build settings and `p
 1. Push the repo to GitHub, then open [vercel.com/new](https://vercel.com/new) and import it.
 2. Vercel auto-detects the Vite preset; the settings below are picked up from `vercel.json` — no manual changes needed. Click **Deploy**.
 3. Every push to `main` triggers a production deploy, and every PR gets its own preview URL.
+
+Production URL: `https://my-portfolio-webpage-ten.vercel.app/`
 
 **Via CLI**
 
