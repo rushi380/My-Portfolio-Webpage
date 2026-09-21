@@ -70,7 +70,7 @@ export const repos: Repo[] = [
     category: 'ai',
     url: 'https://github.com/rushi380/DukanAI',
     live: 'https://dukan-rfzw1pnc8-rushi380s-projects.vercel.app',
-    updated: '2026-05',
+    updated: '2026-09',
   },
   {
     name: 'fundchain-v3',
